@@ -58,6 +58,8 @@ with final.pkgs.lib; let
     nvim-navic # Add LSP location to lualine | https://github.com/SmiteshP/nvim-navic
     statuscol-nvim # Status column | https://github.com/luukvbaal/statuscol.nvim/
     nvim-treesitter-context # nvim-treesitter-context
+
+    catppuccin-nvim
     # ^ UI
     # language support
     # ^ language support
@@ -81,6 +83,9 @@ with final.pkgs.lib; let
     # (mkNvimPlugin inputs.wf-nvim "wf.nvim") # (example) keymap hints | https://github.com/Cassin01/wf.nvim
     # ^ bleeding-edge plugins from flake inputs
     which-key-nvim
+
+    harpoon2
+    vim-tmux-navigator
   ];
 
   extraPackages = with pkgs; [
