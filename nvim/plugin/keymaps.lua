@@ -34,7 +34,7 @@ local function toggle_qf_list()
   end
 end
 
-keymap.set('n', '<C-c>', toggle_qf_list, { desc = 'toggle quickfix list' })
+keymap.set('n', '<leader>q', toggle_qf_list, { desc = 'toggle [q]uickfix list' })
 
 local function try_fallback_notify(opts)
   local success, _ = pcall(opts.try)
@@ -114,10 +114,6 @@ end, { silent = true, desc = 'dec window [h]eight' })
 keymap.set('n', '<leader>fq', function()
   vim.cmd('fclose!')
 end, { silent = true, desc = '[f]loating windows: [q]uit/close all' })
-
--- Remap Esc to switch to normal mode and Ctrl-Esc to pass Esc to terminal
-keymap.set('t', '<Esc>', '<C-\\><C-n>', { desc = 'switch to normal mode' })
-keymap.set('t', '<C-Esc>', '<Esc>', { desc = 'send Esc to terminal' })
 
 -- Shortcut for expanding to current buffer's directory in command mode
 keymap.set('c', '%%', function()

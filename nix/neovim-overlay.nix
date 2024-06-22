@@ -88,12 +88,22 @@ with final.pkgs.lib; let
     harpoon2
     vim-tmux-navigator
     leap-nvim
+    nvim-lspconfig
+
+    # nvim-tree-lua
+    neo-tree-nvim
+    oil-nvim
+
+    rust-vim
   ];
 
   extraPackages = with pkgs; [
     # language servers, etc.
     lua-language-server
     nil # nix LSP
+
+    pyright  # Python
+    rust-analyzer # Rust
   ];
 in {
   # This is the neovim derivation

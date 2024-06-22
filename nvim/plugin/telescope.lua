@@ -101,7 +101,7 @@ vim.keymap.set(
   'n',
   '<leader>to',
   builtin.lsp_dynamic_workspace_symbols,
-  { desc = '[t]elescope lsp dynamic w[o]rkspace symbols' }
+  { desc = '[t]elescope lsp dynamic workspace [s]ymbols' }
 )
 
 telescope.setup {
