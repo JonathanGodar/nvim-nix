@@ -8,6 +8,8 @@ vim.g.did_load_plugins_plugin = true
 
 require('which-key').setup()
 require('nvim-surround').setup()
+require('oil').setup()
+
 local lspconfig = require('lspconfig')
 
 lspconfig.rust_analyzer.setup {}
