@@ -109,16 +109,9 @@ telescope.setup {
     path_display = {
       'truncate',
     },
-    layout_strategy = 'vertical',
+    layout_strategy = 'horizontal',
     layout_config = layout_config,
     mappings = {
-      i = {
-        ['<C-q>'] = actions.send_to_qflist,
-        ['<C-l>'] = actions.send_to_loclist,
-        -- ['<esc>'] = actions.close,
-        ['<C-s>'] = actions.cycle_previewers_next,
-        ['<C-a>'] = actions.cycle_previewers_prev,
-      },
       n = {
         q = actions.close,
       },

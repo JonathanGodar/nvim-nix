@@ -79,11 +79,11 @@ vim.api.nvim_create_autocmd('LspAttach', {
     end, desc('[lsp] [w]orkspace folders [l]ist'))
     keymap.set('n', '<leader>rn', vim.lsp.buf.rename, desc('lsp [r]e[n]ame'))
     keymap.set('n', '<leader>wq', vim.lsp.buf.workspace_symbol, desc('lsp [w]orkspace symbol [q]'))
-    keymap.set('n', '<leader>dd', vim.lsp.buf.document_symbol, desc('lsp [dd]ocument symbol'))
+    keymap.set('n', '<leader>ds', vim.lsp.buf.document_symbol, desc('lsp [d]ocument [s]ymbol'))
     keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, desc('[c]ode [a]ction'))
     keymap.set('n', '<leader>cR', vim.lsp.codelens.run, desc('run [c]ode lens ([r]un)'))
     keymap.set('n', '<leader>cr', vim.lsp.codelens.refresh, desc('[c]ode lenses [r]efresh'))
-    keymap.set('n', 'gr', vim.lsp.buf.references, desc('lsp [g]et [r]eferences'))
+    keymap.set('n', '<leader>gr', vim.lsp.buf.references, desc('lsp [g]et [r]eferences'))
     keymap.set('n', '<leader>f', function()
       vim.lsp.buf.format { async = true }
     end, desc('[f]ormat buffer'))

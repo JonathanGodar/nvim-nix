@@ -1,3 +1,4 @@
+
 if vim.g.did_load_keymaps_plugin then
   return
 end
@@ -8,6 +9,8 @@ local fn = vim.fn
 local keymap = vim.keymap
 local diagnostic = vim.diagnostic
 
+local harpoon = require("harpoon")
+
 -- Yank from current position till end of current line
 keymap.set('n', 'Y', 'y$', { silent = true, desc = '[Y]ank to end of line' })
 
@@ -16,6 +19,16 @@ keymap.set('n', '[b', vim.cmd.bprevious, { silent = true, desc = 'previous [b]uf
 keymap.set('n', ']b', vim.cmd.bnext, { silent = true, desc = 'next [b]uffer' })
 keymap.set('n', '[B', vim.cmd.bfirst, { silent = true, desc = 'first [B]uffer' })
 keymap.set('n', ']B', vim.cmd.blast, { silent = true, desc = 'last [B]uffer' })
+
+
+-- Harpoon
+vim.keymap.set("n", "<leader>ha", function() harpoon:list():add() end, { desc = "Add to harpoon quickfix" } )
+vim.keymap.set("n", "<leader>hq", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end, { desc = "Toggle harpoon quick menu" })
+
+vim.keymap.set("n", "<leader>1", function() harpoon:list():select(1) end, {desc = "Harpoon mark [1]" })
+vim.keymap.set("n", "<leader>2", function() harpoon:list():select(2) end, {desc = "Harpoon mark [2]" })
+vim.keymap.set("n", "<leader>3", function() harpoon:list():select(3) end, {desc = "Harpoon mark [3]" })
+vim.keymap.set("n", "<leader>4", function() harpoon:list():select(4) end, {desc = "Harpoon mark [4]" })
 
 -- Toggle the quickfix list (only opens if it is populated)
 local function toggle_qf_list()
@@ -56,40 +69,6 @@ local function cleft()
     notify = 'Quickfix list is empty!',
   }
 end
-
-local function cright()
-  try_fallback_notify {
-    try = vim.cmd.cnext,
-    fallback = vim.cmd.cfirst,
-    notify = 'Quickfix list is empty!',
-  }
-end
-
-keymap.set('n', '[c', cleft, { silent = true, desc = '[c]ycle quickfix left' })
-keymap.set('n', ']c', cright, { silent = true, desc = '[c]ycle quickfix right' })
-keymap.set('n', '[C', vim.cmd.cfirst, { silent = true, desc = 'first quickfix entry' })
-keymap.set('n', ']C', vim.cmd.clast, { silent = true, desc = 'last quickfix entry' })
-
-local function lleft()
-  try_fallback_notify {
-    try = vim.cmd.lprev,
-    fallback = vim.cmd.llast,
-    notify = 'Location list is empty!',
-  }
-end
-
-local function lright()
-  try_fallback_notify {
-    try = vim.cmd.lnext,
-    fallback = vim.cmd.lfirst,
-    notify = 'Location list is empty!',
-  }
-end
-
-keymap.set('n', '[l', lleft, { silent = true, desc = 'cycle [l]oclist left' })
-keymap.set('n', ']l', lright, { silent = true, desc = 'cycle [l]oclist right' })
-keymap.set('n', '[L', vim.cmd.lfirst, { silent = true, desc = 'first [L]oclist entry' })
-keymap.set('n', ']L', vim.cmd.llast, { silent = true, desc = 'last [L]oclist entry' })
 
 -- Resize vertical splits
 local toIntegral = math.ceil
@@ -137,34 +116,24 @@ keymap.set('n', '<space>e', function()
   end
   vim.api.nvim_win_set_config(winid or 0, { focusable = true })
 end, { noremap = true, silent = true, desc = 'diagnostics floating window' })
-keymap.set('n', '[d', diagnostic.goto_prev, { noremap = true, silent = true, desc = 'previous [d]iagnostic' })
-keymap.set('n', ']d', diagnostic.goto_next, { noremap = true, silent = true, desc = 'next [d]iagnostic' })
-keymap.set('n', '[e', function()
+keymap.set('n', '<leader>dd', diagnostic.goto_prev, { noremap = true, silent = true, desc = 'previous [d]iagnostic' })
+keymap.set('n', '<leader>dD', diagnostic.goto_next, { noremap = true, silent = true, desc = 'next [d]iagnostic' })
+keymap.set('n', '<leader>E', function()
   diagnostic.goto_prev {
     severity = severity.ERROR,
   }
 end, { noremap = true, silent = true, desc = 'previous [e]rror diagnostic' })
-keymap.set('n', ']e', function()
+keymap.set('n', '<leader>e', function()
   diagnostic.goto_next {
     severity = severity.ERROR,
   }
 end, { noremap = true, silent = true, desc = 'next [e]rror diagnostic' })
-keymap.set('n', '[w', function()
-  diagnostic.goto_prev {
-    severity = severity.WARN,
-  }
-end, { noremap = true, silent = true, desc = 'previous [w]arning diagnostic' })
-keymap.set('n', ']w', function()
-  diagnostic.goto_next {
-    severity = severity.WARN,
-  }
-end, { noremap = true, silent = true, desc = 'next [w]arning diagnostic' })
-keymap.set('n', '[h', function()
+keymap.set('n', '<leader>dH', function()
   diagnostic.goto_prev {
     severity = severity.HINT,
   }
 end, { noremap = true, silent = true, desc = 'previous [h]int diagnostic' })
-keymap.set('n', ']h', function()
+keymap.set('n', '<leader>dh', function()
   diagnostic.goto_next {
     severity = severity.HINT,
   }
@@ -185,14 +154,3 @@ keymap.set('n', '<C-b>', '<C-b>zz', { desc = 'move UP full-page and center' })
 keymap.set('n', '-', ':Oil<CR>', { silent = true, desc = 'last quickfix entry' })
 
 --- Disabled keymaps [enable at your own risk]
-
--- Automatic management of search highlight
--- XXX: This is not so nice if you use j/k for navigation
--- (you should be using <C-d>/<C-u> and relative line numbers instead ;)
---
--- local auto_hlsearch_namespace = vim.api.nvim_create_namespace('auto_hlsearch')
--- vim.on_key(function(char)
---   if vim.fn.mode() == 'n' then
---     vim.opt.hlsearch = vim.tbl_contains({ '<CR>', 'n', 'N', '*', '#', '?', '/' }, vim.fn.keytrans(char))
---   end
--- end, auto_hlsearch_namespace)

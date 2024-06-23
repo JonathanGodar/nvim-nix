@@ -8,7 +8,15 @@ vim.g.did_load_plugins_plugin = true
 
 require('which-key').setup()
 require('nvim-surround').setup()
-require('oil').setup()
+require('oil').setup({
+  keymaps = {
+    ["<C-h>"] = false,
+    ["<C-l>"] = false,
+    ["<C-w>"] = { "actions.select", opts = { horizontal = true }, desc = "Open the entry in a horizontal split" }
+    -- ["<C-S>"] = { "actions.select", opts = { horizontal = true }, desc = "Open in a horizontal split" },
+    -- ["<M-v>"] = { "actions.select", opts = { vertical = true } },
+  }
+})
 
 local lspconfig = require('lspconfig')
 
